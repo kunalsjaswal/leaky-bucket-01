@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use('api/v1', apiRoutes);
+app.use('/api/v1', apiRoutes);
 
 conn.sync()
 .then(() => app.listen(PORT, () => {
