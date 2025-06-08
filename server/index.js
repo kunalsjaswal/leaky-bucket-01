@@ -1,11 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import apiRoutes from './routes/App.routes.js';
 import conn from './database/Mysql.database.js';
 import './model/User.model.js';
 
+dotenv.config();
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // middleware configuration
 app.use(express.json());

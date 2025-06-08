@@ -1,11 +1,13 @@
 import sequilize from 'sequelize';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const conn = new sequilize( {
-  database: "chat_limiter_db",
+  database: process.env.DB_NAME,
   dialect: "mysql",
-  host: "localhost",
-  username: "root",
-  password: "KSInzayn&123",
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
 })
 
 export default conn;
