@@ -26,6 +26,10 @@ const userTable = conn.define("master_user", {
     },
     allowNull: false,
   },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
