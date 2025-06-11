@@ -1,4 +1,3 @@
-import userTable from "../model/User.model.js";
 import groupTable from "../model/Group.model.js";
 import userGroupTable from "../model/UserGroup.model.js";
 import conn from "../database/Mysql.database.js";
@@ -58,23 +57,16 @@ export const GetGroupDetails = async (req, res) => {
             attributes: ['id', 'name', 'description', 'createdAt', 'updatedAt']
         });
 
-        const groupUserIds = await userGroupTable.findAll({
-            where: { groupId },
-            attributes: ['userId'],
-        });
-
-        const groupUsers = await userTable.findAll({
-            where: {
-                id: groupUserIds.map(userGroup => userGroup.userId)
-            },
-            attributes: ['id', 'name', 'email']
-        });
-
         if (!groupDetails) {
             return res.status(404).json({ status: 404, data: null, message: 'Group not found' });
         }
 
-        res.status(200).json({ status: 200, data: { groupDetails, groupUsers }, message: 'Group details fetched successfully' });
+        const [ rows ] = await conn.query('CALL GetGroupDetailsAndUsers(:groupId)', {
+            replacements: { groupId },
+        });
+
+        const { finalJson } = rows || {};
+        res.status(200).json({ status: 200, data: finalJson, message: 'Group details fetched successfully' });
     } catch (error) {
         console.error('Error fetching group details:', error);
         res.status(500).json({ status: 500, data: [], message: 'Internal Server Error' });
