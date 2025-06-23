@@ -4,10 +4,7 @@ import dotenv from 'dotenv';
 import apiRoutes from './routes/App.routes.js';
 import conn from './database/Mysql.database.js';
 import mongoConnect from './database/Mongo.database.js';
-import './model/User.model.js';
-import './model/Group.model.js';
-import './model/UserGroup.model.js';
-import './model/Message.model.js';
+import './model/index.model.js'; // Importing all models to ensure they are registered
 
 dotenv.config();
 const app = express();
