@@ -1,10 +1,11 @@
 import './App.css'
+import Routes from './pages/routes/Routes'
 
 function App() {
 
   return (
     <>
-      <h1>Welcome to our Application</h1>
+      <Routes />
     </>
   )
 }
