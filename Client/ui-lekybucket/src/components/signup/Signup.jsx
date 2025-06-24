@@ -1,8 +1,14 @@
-import React from 'react'
+import { SignupStyledDiv } from './SingupStyle';
 
-const Signup = () => {
+const Signup = (props) => {
+
+  const { togglePage } = props;
+
   return (
-    <div>Signup</div>
+    <SignupStyledDiv>
+      <h2>Signup</h2>  
+      <button onClick={() => togglePage(true)}>Log in</button>
+    </SignupStyledDiv>
   )
 }
 
