@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import bgImage from '../../assets/bg-cover-2.jpg';
+import bgImage from '../../assets/images/bg-cover.jpg';
 
 export const AuthStyledDiv = styled.div`
   position: absolute;
@@ -13,6 +13,6 @@ export const AuthStyledDiv = styled.div`
     background-image: url(${bgImage});
     background-size: cover;
     background-position: center;
-    opacity: 1;
+    opacity: 0.8;
   }
 `
