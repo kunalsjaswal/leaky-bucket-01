@@ -26,7 +26,7 @@ export const GetUser = async (req, res) => {
   try {
     const user = await userTable.findOne({
       where: { id: userId, isActive: true },
-      attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt']
+      attributes: ['id', 'name', 'email']
     });
 
     if (!user) {
