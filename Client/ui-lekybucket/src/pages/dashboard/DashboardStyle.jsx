@@ -5,9 +5,8 @@ export const DashboardStyledDiv = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  /* border: 1px solid black; */
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 30% 70%;
 
   .chat-container {
     width: 100%;

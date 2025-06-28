@@ -6,7 +6,7 @@ const CommonAlert = ({message, type}) => {
 
   return (
     <AlertStyleDiv>
-          <Alert variant="filled" severity={`${type ? type : 'success'}`}>{ message }.</Alert>
+          <Alert variant="standard" severity={`${type ? type : 'success'}`}>{ message }.</Alert>
     </AlertStyleDiv>
   )
 }

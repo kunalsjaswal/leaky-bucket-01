@@ -1,7 +1,10 @@
 import { NavbarStyledDiv } from "./NavbarStyle";
-import { Button } from "@mui/material";
+import { Button, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
+import ExploreChat from "../exploreChat/ExploreChat";
+import UserStatus from "../userStatus/UserStatus";
+import React from "react";
 
 const Navbar = () => {
   // replace this later from redux state
@@ -32,13 +35,36 @@ const Navbar = () => {
   return (
     <NavbarStyledDiv>
       <section className="profile-view">
-        <div className="profile-icon">
-          <h3>{getProfileIcon(profileInfo.name)} </h3>
-        </div>
-        <div className="profile-info">
-          <h3 className="profile-name">{profileInfo.name}</h3>
-          <p className="profile-email">{profileInfo.email}</p>
-        </div>
+        <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <div className="profile-icon">
+                { getProfileIcon(profileInfo.name)}
+              </div>
+            </ListItemAvatar>
+          <ListItemText
+            primary={
+              <Typography
+                component="h2"
+                variant="body1"
+                sx={{ fontSize:'125%', fontWeight: 'bold' }}
+              >
+                {profileInfo.name}
+              </Typography>
+            }
+            secondary={
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  sx={{ color: "text.primary", display: "inline" }}
+                >
+                  { profileInfo.email }
+                </Typography>
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+       
         <div className="logout">
           <Button
             variant="contained"
@@ -50,6 +76,21 @@ const Navbar = () => {
             Logout
           </Button>
         </div>
+      </section>
+      <Divider variant="inset" component="div" />
+
+
+      <hr />
+      <section className="content-scroll">
+      
+        <section className="explore-view">
+          <ExploreChat />
+        </section>
+
+        <section className="user-status">
+          <UserStatus />
+        </section>
+
       </section>
     </NavbarStyledDiv>
   );

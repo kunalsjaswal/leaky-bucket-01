@@ -3,9 +3,10 @@ export const textColors = {
 }
 
 export const bgColors = {
-  loginPanelLightColor: "#D9D7DE",
+  loginPanelLightColor: "#f9f9f9",
   profileIconBgColor: "#343232",
   loginBtnColor: "#6D54B5",
   loginBtnFocusColor: "#572ab7",
   loadingBgColor: "#0e0e0ea1",
+  exploreGrpBgColor: "#403557",
 }
