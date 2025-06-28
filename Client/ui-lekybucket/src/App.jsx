@@ -15,6 +15,7 @@ const AppWrapper = styled.div`
 function App() {
 
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(state => state.auth);
 
   useEffect(()=>{
     const token = localStorage.getItem('auth-token');
@@ -23,7 +24,7 @@ function App() {
     if(token && userId) {
       dispatch(fetchUserDetails(userId));
     }
-  },[])
+  },[isAuthenticated])
 
   const { isVisible, message, type } = useSelector(state => state.alert);
 

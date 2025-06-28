@@ -4,6 +4,7 @@ import { bgColors } from "../../assets/colors";
 import { useState } from "react";
 import { showAlertWithTimeout } from "../../redux/alert/alertSlice";
 import { useDispatch } from "react-redux";
+import { signupUser } from "../../redux/auth/authThunks";
 
 const Signup = (props) => {
   const { togglePage } = props;
@@ -66,7 +67,7 @@ const Signup = (props) => {
     setEmailError(email.length > 0 && !emailRegex.test(email));
   };
 
-  const handleOnSingupClick = () => {
+  const handleOnSingupClick = async() => {
     if (username.length === 0) {
       setUsernameError("Username is required");
       return;
@@ -114,13 +115,13 @@ const Signup = (props) => {
     setEmailError(false);
     setEmailTouched(false);
     
-    dispatch(showAlertWithTimeout({
-      message: "Signup successful! Please log in.",
-      type: "success",
-      isVisible: true
-    }));
+    try {
+      await dispatch(signupUser({name: username, email, password})).unwrap();
 
-    togglePage(true); // Switch to login page after signup
+      // navigating to login page after successful signup
+      togglePage(true);
+    } catch (error) {
+    }
   };
   
   return (

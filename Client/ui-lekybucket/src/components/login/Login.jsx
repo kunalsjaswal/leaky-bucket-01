@@ -2,9 +2,12 @@ import { LoginStyledDiv } from "./LoginStyle";
 import { Button, TextField } from "@mui/material";
 import { bgColors } from "../../assets/colors";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/auth/authThunks";
 
 const Login = (props) => {
   const { togglePage } = props;
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -56,7 +59,10 @@ const Login = (props) => {
       return;
     }
 
-    alert("Login successful!");
+    dispatch(loginUser({ email, password }));
+
+    setEmail("");
+    setPassword("");
   }
 
   return (
