@@ -6,6 +6,7 @@ import { fetchUserDetails } from './redux/auth/authThunks';
 import styled from 'styled-components';
 import { hideAlert } from './redux/alert/alertSlice';
 import CommonAlert from './components/alert/CommonAlert';
+import CommonLoading from './components/loading/CommonLoading';
 
 const AppWrapper = styled.div`
   height: 100%;
@@ -15,7 +16,7 @@ const AppWrapper = styled.div`
 function App() {
 
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(state => state.auth);
+  const { isAuthenticated, loading } = useSelector(state => state.auth);
 
   useEffect(()=>{
     const token = localStorage.getItem('auth-token');
@@ -44,6 +45,10 @@ function App() {
       { 
         isVisible &&
         <CommonAlert message={message} type={type} />
+      }
+      {
+        loading && 
+        <CommonLoading />
       }
         <Routes />
     </AppWrapper>

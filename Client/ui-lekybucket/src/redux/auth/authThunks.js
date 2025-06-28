@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { showAlertWithTimeout } from '../alert/alertSlice';
+import axiosInstance from '../../utils/axiosInstance';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -40,13 +41,14 @@ export const fetchUserDetails = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('auth-token');
-      const res = await axios.get(`${baseUrl}/users/${userId}`, {
+
+      const res = await axiosInstance.get(`/users/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-
-      return res.data;
+      
+      return res.data.data;
     }
     catch(error) {
       return rejectWithValue('Failed to fetch user details');
