@@ -34,6 +34,10 @@ const userTable = conn.define("master_user", {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+  lastSeen: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,

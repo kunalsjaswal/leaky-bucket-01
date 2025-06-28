@@ -1,9 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { showAlertWithTimeout } from '../alert/alertSlice';
 import axiosInstance from '../../utils/axiosInstance';
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
@@ -11,7 +9,7 @@ export const loginUser = createAsyncThunk(
     try {
       const { email, password } = credentials;
 
-      const res = await axios.post(`${baseUrl}/auth/login`, {
+      const res = await axiosInstance.post(`/auth/login`, {
         email,
         password
       })
@@ -40,13 +38,8 @@ export const fetchUserDetails = createAsyncThunk(
   'auth/fetchUserDetails',
   async (userId, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('auth-token');
 
-      const res = await axiosInstance.get(`/users/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await axiosInstance.get(`/users/${userId}`, {});
       
       return res.data.data;
     }
@@ -62,7 +55,7 @@ export const signupUser = createAsyncThunk(
     try {
       const { name, email, password } = userData;
 
-      const res = await axios.post(`${baseUrl}/users`, {
+      const res = await axiosInstance.post(`/users`, {
         name,
         email,
         password

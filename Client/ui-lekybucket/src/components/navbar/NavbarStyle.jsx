@@ -34,7 +34,7 @@ export const NavbarStyledDiv = styled.div`
   .content-scroll {
     position: absolute;
     width: 95%;
-    height: 85%;
+    height: 80%;
     overflow-y: auto;
 
     hr {

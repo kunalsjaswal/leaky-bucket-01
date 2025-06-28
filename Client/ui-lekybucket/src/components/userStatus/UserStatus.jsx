@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserStatusStyleDiv } from "./UserStatusStyle";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -10,8 +10,22 @@ import { bgColors } from "../../assets/colors";
 import { Accordion, AccordionDetails, AccordionSummary, Badge, Tooltip } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { fetchUsersList } from "../../redux/users/usersThunks";
+import { useSelector, useDispatch } from "react-redux";
+import LoadingContent from "../../common/loadingContent/LoadingContent";
 
 const UserStatus = () => {
+
+  const dispatch = useDispatch()
+  const { users, count, loading } = useSelector(state => state.users);
+  const [usersList, setUsersList] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchUsersList());
+
+    setUsersList(users?.map(user => { return {...user, isActive: false}}))
+  }, [count])
+
   const getProfileIcon = (name) => {
     const names = name.split(" ");
 
@@ -25,8 +39,12 @@ const UserStatus = () => {
   
   // Helper to format time difference as "2 min ago", "2 hrs ago", etc.
   const timeAgo = (timestamp) => {
+    
+    // Convert string timestamp to Date object if necessary
+    const ts = new Date(timestamp).getTime();
+    
     const now = Date.now();
-    const diff = now - timestamp;
+    const diff = now - ts;
 
     const seconds = Math.floor(diff / 1000);
     if (seconds < 60) return `${seconds} sec ago`;
@@ -48,26 +66,12 @@ const UserStatus = () => {
     return `${years} yr ago`;
   };
 
-  // Helper to generate a random timestamp within the last 7 days
-  const getRandomDateWithin7Days = () => {
-    const now = Date.now();
-    const sevenDaysMs =  60 * 60 * 1000;
-    return now - Math.floor(Math.random() * sevenDaysMs);
-  };
-
   const [isOpen, setIsOpen] = useState(true)
   
   const handleOnAccordianClick = () => {
     setIsOpen(prev => !prev);
   }
 
-  const [users, setUsers] = useState([
-    {id: 1, name: "Kunal Singh Jaswal", email: "abs@gmail.com", isActive: true, lastSeen: Date.now()},
-    {id: 2, name: "Divyansh Singh", email: "abs@gmail.com", isActive: false, lastSeen: getRandomDateWithin7Days()},
-    {id: 3, name: "Rohan Sharma", email: "abs@gmail.com", isActive: false, lastSeen: getRandomDateWithin7Days()},
-    {id: 4, name: "Yatin Gill", email: "abs@gmail.com", isActive: true, lastSeen: Date.now()},
-    {id: 5, name: "Yuvraj Singh", email: "abs@gmail.com", isActive: false, lastSeen: getRandomDateWithin7Days()},
-  ]);
 
   return (
     <UserStatusStyleDiv>
@@ -89,48 +93,57 @@ const UserStatus = () => {
         </AccordionSummary>
 
         <AccordionDetails>
-          <List
-            sx={{
-              width: "100%",
-              maxWidth: 400,
-              bgcolor: bgColors.loginPanelLightColor,
-            }}
-          >
-            {
-              users.map((user, indx) => (
-                <React.Fragment>
-                  <ListItem alignItems="flex-start">
+          {
+            loading && 
+            <LoadingContent />
+          }
+          {
+            count > 0 && !loading && 
+            (
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 400,
+                  bgcolor: bgColors.loginPanelLightColor,
+                }}
+              >
+                {   
+                  usersList.map((user, indx) => (
+                    <React.Fragment key={user.id}>
+                      <ListItem alignItems="flex-start">
 
-                    <Tooltip title = {user.email} placement="top">
-                      <ListItemAvatar>
-                        <div className="profile-icon">
-                          { getProfileIcon(user.name)}
-                        </div>
-                      </ListItemAvatar>
-                    </Tooltip>
-                    <ListItemText
-                      primary={user.name}
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            sx={{ color: "text.primary", display: "inline" }}
-                          >
-                            { user.isActive ? <span style={{color:"green"}}>Online</span>: timeAgo(user.lastSeen) }
-                          </Typography>
-                        </React.Fragment>
+                        <Tooltip title = {user.email} placement="top">
+                          <ListItemAvatar>
+                            <div className="profile-icon">
+                              { getProfileIcon(user.name)}
+                            </div>
+                          </ListItemAvatar>
+                        </Tooltip>
+                        <ListItemText
+                          primary={user.name}
+                          secondary={
+                            <React.Fragment>
+                              <Typography
+                                component="span"
+                                variant="body2"
+                                sx={{ color: "text.primary", display: "inline" }}
+                              >
+                                { user.isActive ? <span style={{color:"green"}}>Online</span>: timeAgo(user.lastSeen) }
+                              </Typography>
+                            </React.Fragment>
+                          }
+                        />
+                      </ListItem>
+                      {
+                        (indx < users.length - 1) && 
+                        <Divider variant="inset" component="li" />
                       }
-                    />
-                  </ListItem>
-                  {
-                    (indx < users.length - 1) && 
-                    <Divider variant="inset" component="li" />
-                  }
-                </React.Fragment>
-              ))
-            }
-          </List>
+                    </React.Fragment>
+                  ))
+                }
+              </List>
+            )
+          }
         </AccordionDetails>
 
       </Accordion>

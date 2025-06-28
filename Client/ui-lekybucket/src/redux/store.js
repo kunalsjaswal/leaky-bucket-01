@@ -1,11 +1,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './auth/authSlice';
-import alertReducer from './alert/alertSlice';
+import rootReducer from './rootReducer';
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    alert: alertReducer
-  }
+  reducer: rootReducer
 })

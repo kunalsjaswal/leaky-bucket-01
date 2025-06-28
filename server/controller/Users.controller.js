@@ -4,7 +4,7 @@ export const GetUsers = async (req, res) => {
   try {
     const users = await userTable.findAll({
       where: { isActive: true },
-      attributes: ["id", "name", "email", "createdAt", "updatedAt"],
+      attributes: ["id", "name", "email", "lastSeen", "createdAt", "updatedAt"],
       order: [["createdAt", "DESC"]],
     });
 

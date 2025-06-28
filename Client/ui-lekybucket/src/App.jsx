@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserDetails } from './redux/auth/authThunks';
 import styled from 'styled-components';
 import { hideAlert } from './redux/alert/alertSlice';
-import CommonAlert from './components/alert/CommonAlert';
-import CommonLoading from './components/loading/CommonLoading';
+import CommonAlert from './common/alert/CommonAlert';
+import CommonLoading from './common/loading/CommonLoading';
 
 const AppWrapper = styled.div`
   height: 100%;
