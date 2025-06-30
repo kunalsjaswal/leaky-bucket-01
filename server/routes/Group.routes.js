@@ -1,10 +1,12 @@
 import express from "express";
-import { CreateGroup, GetAllGroups, GetGroupDetails} from "../controller/Group.controller.js";
+import { CreateGroup, GetAllGroups, GetAllUserGroups, GetGroupDetails} from "../controller/Group.controller.js";
+import { validateToken } from '../middleware/validateToken.js';
 
 const groupRoutes = express.Router();
 
-groupRoutes.post("/", CreateGroup);
-groupRoutes.get("/", GetAllGroups);
-groupRoutes.get("/:groupId", GetGroupDetails);
+groupRoutes.post("/", validateToken ,CreateGroup);
+groupRoutes.get("/", validateToken, GetAllGroups);
+groupRoutes.get("/user/:userId", validateToken, GetAllUserGroups);
+groupRoutes.get("/:groupId", validateToken, GetGroupDetails);
 
 export default groupRoutes;

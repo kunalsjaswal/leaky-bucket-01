@@ -1,27 +1,30 @@
 import { ExploreChatStyleDiv } from './ExploreChatStyle'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommonExplore from './CommonExplore';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserGroupsList } from '../../redux/group/groupThunks';
 
 const ExploreChat = () => {
   const [countGroups, setCountGroups] = useState(3);
-  const [groupsList, setGroupsList] = useState([
-    {id: 1, name: "Chads from Bangaluru"},
-    {id: 2, name: "Family"},
-    {id: 3, name: "Unofficial chads"},
-    {id: 4, name: "Chads from Bangaluru"},
-    {id: 5, name: "Family"},
-    {id: 6, name: "Unofficial chads"}
-  ]);
+  const [groupsList, setGroupsList] = useState([]);
+
+  const { groups, count: groupCount , loading: groupLoading } = useSelector(state => state.group);
+  const  { user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchUserGroupsList(user.id));
+
+    setGroupsList(groups);
+  }, [groupCount])
+  
+  
 
   const [countUsers, setCountUsers] = useState(2);
   
   const [usersList, setUsersList] = useState([
     {id: 1, name: "Rohan Sharma"},
     {id: 2, name: "Divyansh Singh"},
-    {id: 3, name: "Rohan Sharma"},
-    {id: 4, name: "Divyansh Singh"},
-    {id: 5, name: "Rohan Sharma"},
-    {id: 6, name: "Divyansh Singh"}
   ]);
 
   const [isChatsOpen, setIsChatsOpen] = useState(false)
@@ -35,7 +38,7 @@ const ExploreChat = () => {
       </section>
 
       <section className="explore-groups">
-        <CommonExplore isOpen = {isGroupsOpen} title = "Groups" count = {countGroups} list = {groupsList}/>
+        <CommonExplore isOpen = {isGroupsOpen} title = "Groups" count = {groupCount} list = {groupsList}  loading = {groupLoading}/>
       </section>
     </ExploreChatStyleDiv>
   )

@@ -1,6 +1,7 @@
 import groupTable from "../model/Group.model.js";
 import userGroupTable from "../model/UserGroup.model.js";
 import conn from "../database/Mysql.database.js";
+import { Sequelize } from "sequelize";
 
 export const CreateGroup = async (req, res) => {
     const { name, description, groupUsers } = req.body;
@@ -38,6 +39,34 @@ export const GetAllGroups = async (req, res) => {
         });
 
         res.status(200).json({ status: 200, data: groups, message: 'Groups fetched successfully' });
+    } catch (error) {
+        console.error('Error fetching groups:', error);
+        res.status(500).json({ status: 500, data: [], message: 'Internal Server Error' });
+    }
+}
+
+export const GetAllUserGroups = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const groups = await conn.query(`
+            SELECT mg.id, mg.name, mg.description, mg.createdAt
+            FROM master_groups mg
+            JOIN master_user_groups mug 
+            ON mg.id = mug.groupid
+            WHERE mug.userId = :userId
+            and mg.isActive = true
+            `, 
+        {
+            replacements: { userId: userId },
+            type: conn.QueryTypes.SELECT
+        });
+        
+        // console.log(results);
+        // console.log(metadata);
+        
+        
+        res.status(200).json({ status: 200, data: {count: groups?.length, groups}, message: 'Groups fetched successfully' });
     } catch (error) {
         console.error('Error fetching groups:', error);
         res.status(500).json({ status: 500, data: [], message: 'Internal Server Error' });
