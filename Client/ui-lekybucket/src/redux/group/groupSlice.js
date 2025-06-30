@@ -35,5 +35,4 @@ const groupSlice = createSlice({
 })
 
 export const {selectGroup } = groupSlice.actions;
-
 export default groupSlice.reducer

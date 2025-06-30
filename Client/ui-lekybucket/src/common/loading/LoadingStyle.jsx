@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { bgColors } from "../../assets/colors";
 
 export const LoadingStyleDiv = styled.div`
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
@@ -10,6 +10,7 @@ export const LoadingStyleDiv = styled.div`
   justify-content: center;
   z-index: 11;
   background-color: ${bgColors.loadingBgColor};
+  left: 0;
 
   img {
     width: 20%;
