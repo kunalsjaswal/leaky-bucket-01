@@ -8,7 +8,7 @@ export const ChatNavbarStyle = styled.div`
   display: flex;
   justify-content: space-between;
 
-  
+
   h3 {
     display: flex;
     align-items: center;
@@ -22,4 +22,11 @@ export const ChatNavbarStyle = styled.div`
     }
   }
   
+  .group-details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
 `

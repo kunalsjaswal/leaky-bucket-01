@@ -1,4 +1,5 @@
 import userTable from "../model/User.model.js";
+import { Op } from "sequelize";
 
 export const GetUsers = async (req, res) => {
   try {
@@ -59,6 +60,48 @@ export const GetUser = async (req, res) => {
       });
   }
 };
+
+export const searchUserByNameOrEmail = async(req, res) => {
+  try {
+    const { key } = req.query;
+    console.log(key);
+    
+
+    if (!key) {
+      return res.status(200).json({ status: 200, data: [], message: "Search key is required" });
+    }
+
+    const users = await userTable.findAll({
+      where: {
+        isActive: true,
+        [Op.or]: [
+          { name: { [Op.like]: `%${key}%` } },
+          // Match if key is part of the email username (before @) only
+          { email: { [Op.like]: `%${key}%@%` } },
+          // Match if key is the full email address
+          { email: { [Op.eq]: key } }
+        ]
+      },
+      attributes: ["id", "name", "email", "lastSeen", "createdAt", "updatedAt"],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({
+      status: 200,
+      data: users,
+      message: "Users fetched successfully",
+    });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res
+      .status(500)
+      .json({
+        status: 500,
+        data: [],
+        message: error.errors[0].message || "Internal Server Error",
+      });
+  }
+}
 
 export const CreateUser = async (req, res) => {
   const { name, email, password } = req.body;

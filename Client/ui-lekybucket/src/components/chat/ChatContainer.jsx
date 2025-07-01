@@ -17,7 +17,7 @@ const ChatContainer = () => {
       {
         loading  &&  <CommonLoading />
       }
-      <ChatNavbar name = {selectedGroup.name} id = {selectedGroup.id}/>
+      <ChatNavbar name = {selectedGroup.name} id = {selectedGroup.id} description = {selectedGroup.description}/>
 
     </ChatContainerStyledDiv>
   )

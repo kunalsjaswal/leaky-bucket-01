@@ -15,6 +15,19 @@ const groupSlice = createSlice({
   reducers: {
     selectGroup: (state, action) => {
       state.selectedGroup = action.payload;
+    },
+    searchUserNotInGroup: (state, action) => {
+      const userData = action.payload.userData;
+      const grpUsers = action.payload.groupUsers;
+      const key = action.payload.key;
+
+      const searchUsers = userData?.filter(user => grpUsers.some(grpUser => grpUser.id === user.id))
+      const result = searchUsers?.filter(user => (user.name.includes(key) || user.email.includes(key)))
+
+      return result;
+    },
+    addUserToGroup: () => {
+
     }
 
   },
@@ -34,5 +47,5 @@ const groupSlice = createSlice({
   }
 })
 
-export const {selectGroup } = groupSlice.actions;
+export const {selectGroup, searchUserNotInGroup } = groupSlice.actions;
 export default groupSlice.reducer
